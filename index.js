@@ -1,29 +1,21 @@
 const TelegramBot = require('node-telegram-bot-api');
 
 const token = process.env.BOT_TOKEN;
+
+if (!token) {
+  console.error("NO BOT TOKEN");
+  process.exit(1);
+}
+
 const bot = new TelegramBot(token, { polling: true });
 
-// Команда /start (необязательно, но ок)
-bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, "Нажми кнопку ниже 👇", {
-    reply_markup: {
-      inline_keyboard: [
-        [
-          {
-            text: "🚀 Открыть Avail",
-            web_app: {
-              url: "https://avail.asia"
-            }
-          }
-        ]
-      ]
-    }
-  });
-});
+console.log("Bot started...");
 
-// Автоответ на любое сообщение (чтобы можно было просто написать боту)
+// Ответ на любое сообщение
 bot.on('message', (msg) => {
-  bot.sendMessage(msg.chat.id, "Открыть Avail 👇", {
+  const chatId = msg.chat.id;
+
+  bot.sendMessage(chatId, "👇 Открыть Avail", {
     reply_markup: {
       inline_keyboard: [
         [
